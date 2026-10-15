@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Оқушы білімін анықтау тесті</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #eef4ff;
+      color: #172033;
+    }
+
+    .page {
+      width: min(980px, 94%);
+      margin: 28px auto;
+      background: #ffffff;
+      border-radius: 14px;
+      box-shadow: 0 14px 38px rgba(35, 55, 90, 0.16);
+      overflow: hidden;
+    }
+
+    header {
+      padding: 28px;
+      background: linear-gradient(135deg, #1663d8, #2fb3ff);
+      color: white;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+    }
+
+    header p {
+      margin: 0;
+      font-size: 16px;
+      opacity: 0.95;
+    }
+
+    main {
+      padding: 24px;
+    }
+
+    .student-info {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    label {
+      font-weight: 700;
+      display: block;
+      margin-bottom: 7px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #c9d6e8;
+      border-radius: 9px;
+      font-size: 16px;
+    }
+
+    .question {
+      border: 1px solid #dce6f5;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 14px;
+      background: #f9fbff;
+    }
+
+    .question h3 {
+      margin: 0 0 12px;
+      font-size: 18px;
+    }
+
+    .answers {
+      display: grid;
+      gap: 8px;
+    }
+
+    .answers label {
+      font-weight: 400;
+      margin: 0;
+      padding: 10px;
+      border: 1px solid #d6e1ef;
+      border-radius: 8px;
+      background: white;
+      cursor: pointer;
+    }
+
+    .answers label:hover {
+      border-color: #1d73e8;
+    }
+
+    button {
+      width: 100%;
+      border: 0;
+      border-radius: 10px;
+      padding: 14px 18px;
+      background: #0b63ce;
+      color: white;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      background: #8aa6c9;
+      cursor: wait;
+    }
+
+    .result {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 10px;
+      background: #eaf7ef;
+      border: 1px solid #b9e3c7;
+      display: none;
+      line-height: 1.6;
+    }
+
+    .error {
+      background: #fff1f1;
+      border-color: #f0b7b7;
+      color: #8d1d1d;
+    }
+
+    @media (max-width: 680px) {
+      h1 {
+        font-size: 24px;
+      }
+
+      .student-info {
+        grid-template-columns: 1fr;
+      }
+
+      main {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <h1>Оқушы білімін анықтау тесті</h1>
+      <p>Оқушы аты-жөнін толтырып, тестті орындаған соң нәтиже Google Sheets кестесіне жіберіледі.</p>
+    </header>
+
+    <main>
+      <div class="student-info">
+        <div>
+          <label for="studentName">Оқушының аты-жөні</label>
+          <input id="studentName" type="text" placeholder="Мысалы: Али Нұр" />
+        </div>
+        <div>
+          <label for="studentClass">Сыныбы</label>
+          <input id="studentClass" type="text" placeholder="Мысалы: 7А" />
+        </div>
+      </div>
+
+      <form id="quizForm">
+        <div class="question">
+          <h3>1. HTML не үшін қолданылады?</h3>
+          <div class="answers">
+            <label><input type="radio" name="q1" value="a" /> Веб-беттің құрылымын жасау үшін</label>
+            <label><input type="radio" name="q1" value="b" /> Компьютерді өшіру үшін</label>
+            <label><input type="radio" name="q1" value="c" /> Суретті басып шығару үшін</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <h3>2. CSS не үшін керек?</h3>
+          <div class="answers">
+            <label><input type="radio" name="q2" value="a" /> Деректерді сақтау үшін</label>
+            <label><input type="radio" name="q2" value="b" /> Веб-бетті әдемі безендіру үшін</label>
+            <label><input type="radio" name="q2" value="c" /> Интернетті қосу үшін</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <h3>3. JavaScript қандай жұмыс атқарады?</h3>
+          <div class="answers">
+            <label><input type="radio" name="q3" value="a" /> Сайтқа әрекет және есептеу қосады</label>
+            <label><input type="radio" name="q3" value="b" /> Тек мәтін тереді</label>
+            <label><input type="radio" name="q3" value="c" /> Мониторды жөндейді</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <h3>4. Python тілінде экранға шығару командасы қайсы?</h3>
+          <div class="answers">
+            <label><input type="radio" name="q4" value="a" /> input()</label>
+            <label><input type="radio" name="q4" value="b" /> print()</label>
+            <label><input type="radio" name="q4" value="c" /> range()</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <h3>5. 7 + 5 * 2 нәтижесі нешеге тең?</h3>
+          <div class="answers">
+            <label><input type="radio" name="q5" value="a" /> 24</label>
+            <label><input type="radio" name="q5" value="b" /> 17</label>
+            <label><input type="radio" name="q5" value="c" /> 19</label>
+          </div>
+        </div>
+
+        <button id="submitButton" type="submit">Нәтижені көру және жіберу</button>
+      </form>
+
+      <div id="resultBox" class="result"></div>
+    </main>
+  </div>
+
+  <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzBZteZmSXujRWVb0kdUX55MLpV0JXBTrYa_XxU1hRAtWXNpoU4Kg-M25BqAQ7BD0wUDg/exec";
+
+    const correctAnswers = {
+      q1: "a",
+      q2: "b",
+      q3: "a",
+      q4: "b",
+      q5: "b"
+    };
+
+    const form = document.getElementById("quizForm");
+    const resultBox = document.getElementById("resultBox");
+    const submitButton = document.getElementById("submitButton");
+
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const studentName = document.getElementById("studentName").value.trim();
+      const studentClass = document.getElementById("studentClass").value.trim();
+
+      if (!studentName || !studentClass) {
+        showMessage("Алдымен оқушының аты-жөнін және сыныбын толтырыңыз.", true);
+        return;
+      }
+
+      let score = 0;
+      const total = Object.keys(correctAnswers).length;
+      const answers = {};
+
+      for (const questionName in correctAnswers) {
+        const selected = document.querySelector(`input[name="${questionName}"]:checked`);
+
+        if (!selected) {
+          showMessage("Барлық сұраққа жауап беріңіз.", true);
+          return;
+        }
+
+        answers[questionName] = selected.value;
+
+        if (selected.value === correctAnswers[questionName]) {
+          score++;
+        }
+      }
+
+      const percent = Math.round((score / total) * 100);
+      const status = percent >= 70 ? "Жақсы нәтиже" : "Қайталау қажет";
+
+      const data = {
+        studentName,
+        studentClass,
+        score,
+        total,
+        percent,
+        status,
+        answers: JSON.stringify(answers)
+      };
+
+      showMessage(
+        `<strong>Нәтиже:</strong> ${score}/${total}<br>
+         <strong>Пайыз:</strong> ${percent}%<br>
+         <strong>Баға:</strong> ${status}<br>
+         Нәтиже Google Sheets-ке жіберіліп жатыр...`
+      );
+
+      submitButton.disabled = true;
+
+      try {
+        if (SCRIPT_URL === "GOOGLE_APPS_SCRIPT_URL_OSY_ZHERGE_QOY") {
+          throw new Error("SCRIPT_URL әлі қойылмаған.");
+        }
+
+        await fetch(SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        });
+
+        showMessage(
+          `<strong>Нәтиже:</strong> ${score}/${total}<br>
+           <strong>Пайыз:</strong> ${percent}%<br>
+           <strong>Баға:</strong> ${status}<br>
+           Нәтиже Google Sheets-ке жіберілді.`
+        );
+      } catch (error) {
+        showMessage(
+          `<strong>Нәтиже:</strong> ${score}/${total}<br>
+           <strong>Пайыз:</strong> ${percent}%<br>
+           <strong>Баға:</strong> ${status}<br>
+           <strong>Ескерту:</strong> ${error.message}`,
+          true
+        );
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
+
+    function showMessage(message, isError = false) {
+      resultBox.innerHTML = message;
+      resultBox.className = isError ? "result error" : "result";
+      resultBox.style.display = "block";
+      resultBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  </script>
+</body>
+</html>
